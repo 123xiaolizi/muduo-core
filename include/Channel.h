@@ -35,6 +35,33 @@ public:
     int events() const { return events_; }
     void set_revents(int revt) { revents_ = revt; }
 
+    // 设置fd相应的事件状态 相当于epoll_ctl add delete
+    void enableReading()
+    {
+        events_ |= kReadEvent;
+        update();
+    }
+    void disableReading()
+    {
+        events_ &= ~kReadEvent;
+        update();
+    }
+    void enableWriting()
+    {
+        events_ |= kWriteEvent;
+        update();
+    }
+    void disableWriting()
+    {
+        events_ &= ~kWriteEvent;
+        update();
+    }
+    void disableAll()
+    {
+        events_ = kNoneEvent;
+        update();
+    }
+
     int index() const { return index_; }
     void set_index(int idx) { index_ = idx; }
     /*返回fd当前状态*/
