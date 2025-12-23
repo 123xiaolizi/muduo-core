@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <functional>
-
+#include "EventLoop.h"
 #include "Timestamp.h"
 #include "noncopyable.h"
 
@@ -38,36 +38,36 @@ public:
     // 设置fd相应的事件状态 相当于epoll_ctl add delete
     void enableReading()
     {
-        events_ |= kReadEvent;
+        events_ |= ReadEvent;
         update();
     }
     void disableReading()
     {
-        events_ &= ~kReadEvent;
+        events_ &= ~ReadEvent;
         update();
     }
     void enableWriting()
     {
-        events_ |= kWriteEvent;
+        events_ |= WriteEvent;
         update();
     }
     void disableWriting()
     {
-        events_ &= ~kWriteEvent;
+        events_ &= ~WriteEvent;
         update();
     }
     void disableAll()
     {
-        events_ = kNoneEvent;
+        events_ = NoneEvent;
         update();
     }
 
     int index() const { return index_; }
     void set_index(int idx) { index_ = idx; }
     /*返回fd当前状态*/
-    bool isNoneEvent() const { return events_ == kNoneEvent; }
-    bool isReading() const { return events_ & kReadEvent; }
-    bool isWritint() const { return events_ & kWriteEvent; }
+    bool isNoneEvent() const { return events_ == NoneEvent; }
+    bool isReading() const { return events_ & ReadEvent; }
+    bool isWritint() const { return events_ & WriteEvent; }
 
     /*"One Loop per Thread"​ : 每个线程运行一个事件循环*/
     EventLoop *ownerLoop() { return loop_; }
@@ -86,9 +86,9 @@ private:
     std::weak_ptr<void> tie_;
     bool tied_;
 
-    static const int kNoneEvent;
-    static const int kReadEvent;
-    static const int kWriteEvent;
+    static const int NoneEvent;
+    static const int ReadEvent;
+    static const int WriteEvent;
 
     const int fd_;    // 对应的fd，Poller监听的对象
     EventLoop *loop_; // 事件循环
