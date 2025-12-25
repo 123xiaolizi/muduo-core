@@ -28,7 +28,7 @@ public:
     static Poller* newDefaultPoller(EventLoop *loop);
 
 protected:
-    using ChannelMap = std::vector<int, Channel *>;
+    using ChannelMap = std::unordered_map<int, Channel *>;
     ChannelMap channels_;
 
 private:
