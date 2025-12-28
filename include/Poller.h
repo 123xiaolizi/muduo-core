@@ -1,6 +1,7 @@
-#pragma one
+#pragma once
 
 #include <vector>
+#include <unordered_map>
 #include "noncopyable.h"
 #include "Timestamp.h"
 
@@ -28,7 +29,7 @@ public:
     static Poller* newDefaultPoller(EventLoop *loop);
 
 protected:
-    using ChannelMap = std::unordered_map<int, Channel *>;
+    using ChannelMap = std::unordered_map<int, Channel*>;
     ChannelMap channels_;
 
 private:

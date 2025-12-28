@@ -1,8 +1,8 @@
 #include "Timestamp.h"
 
 Timestamp::Timestamp():microSecondsSinceEpoch_(0){}
-// 防止隐式转换
-explicit Timestamp::Timestamp(int64_t microSecondsSinceEpoch):microSecondsSinceEpoch_(microSecondsSinceEpoch){}
+
+Timestamp::Timestamp(int64_t microSecondsSinceEpoch):microSecondsSinceEpoch_(microSecondsSinceEpoch){}
 
 Timestamp Timestamp::now()
 {
