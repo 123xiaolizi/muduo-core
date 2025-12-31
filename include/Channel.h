@@ -67,7 +67,7 @@ public:
     /*返回fd当前状态*/
     bool isNoneEvent() const { return events_ == NoneEvent; }
     bool isReading() const { return events_ & ReadEvent; }
-    bool isWritint() const { return events_ & WriteEvent; }
+    bool isWriting() const { return events_ & WriteEvent; }
 
     /*"One Loop per Thread"​ : 每个线程运行一个事件循环*/
     EventLoop *ownerLoop() { return loop_; }

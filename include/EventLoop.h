@@ -40,7 +40,7 @@ public:
     /*EventLoop的方法 => Poller的方法*/
     void updateChannel(Channel *channel);
     void removeChannel(Channel *channel);
-    bool hasChannel(Channel *channel);
+    //bool hasChannel(Channel *channel);
 
     /*判断EventLoop对象是否在自己的线程里*/
     /*threadId_为EventLoop创建时的线程id CurrentThread::tid()为当前线程id*/

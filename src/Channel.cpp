@@ -18,6 +18,7 @@ Channel::~Channel()
 {
 }
 
+//这里需要注意Accept 是走else分支的，不然是接受不到新连接的，因为绑定是在创建新连接的时候才调用绑定函数
 void Channel::handleEvent(Timestamp receiveTime)
 {
     if(tied_)
@@ -29,6 +30,10 @@ void Channel::handleEvent(Timestamp receiveTime)
             handleEventWithGuard(receiveTime);
         }
         /*如果提升失败了 就不做任何处理 说明Channel的TcpConnection对象已经不存在了*/
+    }
+    else
+    {
+        handleEventWithGuard(receiveTime);
     }
 }
 
@@ -59,6 +64,7 @@ void Channel::remove()
     loop_->removeChannel(this);
 }
 
+//真正处理事件的函数
 void Channel::handleEventWithGuard(Timestamp receiveTime)
 {
     LOG_INFO("channel handleEvent revents:%d\n", revents_);

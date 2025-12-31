@@ -175,12 +175,26 @@ void EventLoop::removeChannel(Channel *channel)
 {
     poller_->removeChannel(channel);
 }
-bool EventLoop::hasChannel(Channel *channel)
-{
-    return poller_->hasChannel(channel);
-}
+// bool EventLoop::hasChannel(Channel *channel)
+// {
+//     return poller_->hasChannel(channel);
+// }
 
 /*执行上层回调*/
 void EventLoop::doPendingFunctors()
 {
+    std::vector<Functor> functors;
+    callingPendingFunctors_ = true;
+
+    {
+        std::unique_lock<std::mutex> lock(mutex_);
+        functors.swap(pendingFunctors_); // 交换的方式减少了锁的临界区范围 提升效率 同时避免了死锁 如果执行functor()在临界区内 且functor()中调用queueInLoop()就会产生死锁
+    }
+
+    for (const Functor &functor : functors)
+    {
+        functor(); // 执行当前loop需要执行的回调操作
+    }
+
+    callingPendingFunctors_ = false;
 }
